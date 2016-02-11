@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe "Success" do
+describe "TLSv1.2" do
 
-  it "feels great" do
-    expect(true).to eql true
+  it "is supported" do
+    expect {
+      require "openssl"
+      OpenSSL::SSL::SSLContext.new.ssl_version = :TLSv1_2
+    }.to_not raise_error
   end
 
 end
