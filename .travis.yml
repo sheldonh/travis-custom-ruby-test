@@ -9,7 +9,7 @@ install:
   - v=${RUBY#*-}
   - r=${RUBY}
   - rb=${RUBY#ruby-}
-  - echo o=$o r=$r v=$v p=$p
+  - echo o=$o r=$r rb=$rb v=$v p=$p
   - sudo apt-get update >/dev/null
   - sudo apt-get install -y autoconf bison build-essential curl git sudo >/dev/null
   - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev >/dev/null
@@ -21,8 +21,8 @@ install:
   - (cd ruby-build && sudo ./install.sh)
   - git clone https://github.com/postmodern/chruby.git
   - (cd chruby && sudo ./scripts/setup.sh)
-  - ruby-build $r ~/.rubies/$r
+  - ruby-build $rb ~/.rubies/$r
   - chruby-exec $r -- gem install --no-ri --no-rdoc bundler
-script:
   - chruby-exec $r -- bundle
+script:
   - chruby-exec $r -- bundle exec rake
