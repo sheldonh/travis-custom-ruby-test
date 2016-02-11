@@ -1,13 +1,13 @@
 ---
 langauge: c
 env:
-  - RUBY_PLATFORM=ruby RUBY_VERSION=2.0.0-p648 OPENSSL_VERSION=1.0.1d
-  - RUBY_PLATFORM=ruby RUBY_VERSION=2.3.0
+  - RUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
+  - RUBY=ruby-2.3.0 OPENSSL=1.0.1d
 script:
-  - o=$(echo $OPENSSL_VERSION | tr . _)
-  - p=${RUBY_PLATFORM}
-  - v=${RUBY_VERSION}
-  - r=${p}-${v}
+  - o=$(echo $OPENSSL | tr . _)
+  - p=${RUBY%%-*}
+  - v=${RUBY#*-}
+  - r=${RUBY}
   - echo o=$o r=$r v=$v p=$p
   - sudo apt-get update
   - sudo apt-get install -y autoconf bison build-essential curl git sudo
