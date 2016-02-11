@@ -29,4 +29,5 @@ install:
 script:
   - chruby-exec $r -- ruby --version
   - chruby-exec $r -- bundle
+  - curl https://www.howsmyssl.com/a/check
   - chruby-exec $r -- bundle exec rake
