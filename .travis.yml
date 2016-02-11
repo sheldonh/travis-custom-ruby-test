@@ -14,6 +14,7 @@ install:
   - echo o=$o r=$r rb=$rb v=$v p=$p
   - rvm implode --force
   - test "$OPENSSL" = "none" || curl https://s3-eu-west-1.amazonaws.com/hetznerza/travis-ci/precise/no-rvm/openssl-${OPENSSL}.tar.gz | sudo tar -C /opt -xzf -
+  - sudo mkdir -p /opt/rubies
   - curl https://s3-eu-west-1.amazonaws.com/hetznerza/travis-ci/precise/no-rvm/${TRUBY}.tar.gz | sudo tar -C /opt/rubies -xzf -
   - git clone https://github.com/postmodern/chruby.git
   - (cd chruby && sudo ./scripts/setup.sh)
