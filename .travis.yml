@@ -10,6 +10,7 @@ install:
   - r=${RUBY}
   - rb=${RUBY#ruby-}
   - echo o=$o r=$r rb=$rb v=$v p=$p
+  - rvm implode --force
   - sudo apt-get update >/dev/null
   - sudo apt-get install -y autoconf bison build-essential curl git sudo >/dev/null
   - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev >/dev/null
