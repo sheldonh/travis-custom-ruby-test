@@ -2,8 +2,9 @@
 langauge: c
 env:
   - TRUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
-  - TRUBY=ruby-2.3.0 OPENSSL=1.0.1d
+  - TRUBY=ruby-2.3.0 OPENSSL=1.0.2f
   - TRUBY=jruby-9.0.0.0 OPENSSL=none
+  - TRUBY=jruby-9.0.4.0 OPENSSL=none
 install:
   - o=$(echo $OPENSSL | tr . _)
   - p=${TRUBY%%-*}
