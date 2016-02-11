@@ -1,0 +1,26 @@
+---
+langauge: generic
+env:
+  - RUBY_PLATFORM=ruby RUBY_VERSION=2.0.0-p648
+  - RUBY_PLATFORM=ruby RUBY_VERSION=2.3.0
+script:
+  - o=1.0.1d
+  - p=${RUBY_PLATFORM}
+  - v=${RUBY_VERSION}
+  - r=${p}-${v}
+  - echo o=$o r=$r v=$v rv=$rv p=$p
+  - apt-get update
+  - apt-get install -y autoconf bison build-essential curl git sudo
+  - apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
+  - git clone https://github.com/openssl/openssl.git
+  - (cd openssl && git checkout OpenSSL_$o)
+  - (cd openssl && ./config -fPIC --prefix=/usr/local/ssl shared && make depend && make && sudo make install) >/dev/null
+  - mkdir .rubies
+  - git clone https://github.com/rbenv/ruby-build.git
+  - (cd ruby-build && sudo ./install.sh)
+  - git clone https://github.com/postmodern/chruby.git
+  - (cd chruby && sudo ./scripts/setup.sh)
+  - ruby-build $r ~/.rubies/$r
+  - chruby-exec $r -- gem install --no-ri --no-rdoc bundler
+  - chruby-exec $r -- bundle
+  - chruby-exec $r -- bundle exec rake
