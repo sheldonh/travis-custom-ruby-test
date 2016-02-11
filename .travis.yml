@@ -3,15 +3,16 @@ langauge: c
 env:
   - RUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
   - RUBY=ruby-2.3.0 OPENSSL=1.0.1d
-script:
+install:
   - o=$(echo $OPENSSL | tr . _)
   - p=${RUBY%%-*}
   - v=${RUBY#*-}
   - r=${RUBY}
+  - rb=${RUBY#ruby-}
   - echo o=$o r=$r v=$v p=$p
-  - sudo apt-get update
-  - sudo apt-get install -y autoconf bison build-essential curl git sudo
-  - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
+  - sudo apt-get update >/dev/null
+  - sudo apt-get install -y autoconf bison build-essential curl git sudo >/dev/null
+  - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev >/dev/null
   - git clone https://github.com/openssl/openssl.git
   - (cd openssl && git checkout OpenSSL_$o)
   - (cd openssl && ./config -fPIC --prefix=/usr/local/ssl shared && make depend && make && sudo make install) >/dev/null
@@ -22,5 +23,6 @@ script:
   - (cd chruby && sudo ./scripts/setup.sh)
   - ruby-build $r ~/.rubies/$r
   - chruby-exec $r -- gem install --no-ri --no-rdoc bundler
+script:
   - chruby-exec $r -- bundle
   - chruby-exec $r -- bundle exec rake
