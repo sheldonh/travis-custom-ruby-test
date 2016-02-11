@@ -3,6 +3,7 @@ langauge: c
 env:
   - TRUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
   - TRUBY=ruby-2.3.0 OPENSSL=1.0.1d
+  - TRUBY=jruby-9.0.0.0 OPENSSL=none
 install:
   - o=$(echo $OPENSSL | tr . _)
   - p=${TRUBY%%-*}
@@ -14,9 +15,9 @@ install:
   - sudo apt-get update >/dev/null
   - sudo apt-get install -y autoconf bison build-essential curl git sudo >/dev/null
   - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev >/dev/null
-  - git clone https://github.com/openssl/openssl.git
-  - (cd openssl && git checkout OpenSSL_$o)
-  - (cd openssl && ./config -fPIC --prefix=/usr/local/ssl shared && make depend && make && sudo make install) >/dev/null
+  - [ "$o" != "none" ] && git clone https://github.com/openssl/openssl.git
+  - [ "$o" != "none" ] && (cd openssl && git checkout OpenSSL_$o)
+  - [ "$o" != "none" ] && (cd openssl && ./config -fPIC --prefix=/usr/local/ssl shared && make depend && make && sudo make install) >/dev/null
   - mkdir .rubies
   - git clone https://github.com/rbenv/ruby-build.git
   - (cd ruby-build && sudo ./install.sh)
