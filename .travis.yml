@@ -19,10 +19,14 @@ install:
   - mkdir .rubies
   - git clone https://github.com/rbenv/ruby-build.git
   - (cd ruby-build && sudo ./install.sh)
+  - ruby-build $rb ~/.rubies/$r
   - git clone https://github.com/postmodern/chruby.git
   - (cd chruby && sudo ./scripts/setup.sh)
-  - ruby-build $rb ~/.rubies/$r
+  - source /usr/local/share/chruby/chruby.sh
+  - chruby-exec $r -- ruby --version
   - chruby-exec $r -- gem install --no-ri --no-rdoc bundler
-  - chruby-exec $r -- bundle
 script:
+  - source /usr/local/share/chruby/chruby.sh
+  - chruby-exec $r -- ruby --version
+  - chruby-exec $r -- bundle
   - chruby-exec $r -- bundle exec rake
