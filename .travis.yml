@@ -1,14 +1,14 @@
 ---
 langauge: c
 env:
-  - RUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
-  - RUBY=ruby-2.3.0 OPENSSL=1.0.1d
+  - TRUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
+  - TRUBY=ruby-2.3.0 OPENSSL=1.0.1d
 install:
   - o=$(echo $OPENSSL | tr . _)
-  - p=${RUBY%%-*}
-  - v=${RUBY#*-}
-  - r=${RUBY}
-  - rb=${RUBY#ruby-}
+  - p=${TRUBY%%-*}
+  - v=${TRUBY#*-}
+  - r=${TRUBY}
+  - rb=${TRUBY#ruby-}
   - echo o=$o r=$r rb=$rb v=$v p=$p
   - rvm implode --force
   - sudo apt-get update >/dev/null
