@@ -13,7 +13,10 @@ describe "TLSv1.2 HIGH cipher support" do
       @json = URI.parse("https://www.howsmyssl.com/a/check").read
     }.to_not raise_error
     rating = JSON.parse(@json)["rating"]
-    expect(rating).to eql "Probably Okay"
+    expect(["Probably Okay", "Improvable"]).to include rating
+    if rating == "Improvable"
+      $stderr.puts "WARNING: SSL rating is: Improvable"
+    end
   end
 
 end
