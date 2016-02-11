@@ -17,7 +17,8 @@ install:
   - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev >/dev/null
   - test "$o" = "none" || git clone https://github.com/openssl/openssl.git
   - test "$o" = "none" || (cd openssl && git checkout OpenSSL_$o)
-  - test "$o" = "none" || (cd openssl && ./config -fPIC --prefix=/usr/local/ssl shared && make depend && make && sudo make install) >/dev/null
+  - test "$o" = "none" || (cd openssl && ./config -fPIC shared && make depend && make && sudo make install) >/dev/null
+  - test "$o" = "none" || (cd /usr/local/ssl && for i in certs private openssl.cnf; do rm -rf $i; ln -s /etc/ssl/$i; done)
   - mkdir .rubies
   - git clone https://github.com/rbenv/ruby-build.git
   - (cd ruby-build && sudo ./install.sh)
