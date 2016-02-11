@@ -1,17 +1,17 @@
 ---
-langauge: generic
+langauge: c
 env:
-  - RUBY_PLATFORM=ruby RUBY_VERSION=2.0.0-p648
+  - RUBY_PLATFORM=ruby RUBY_VERSION=2.0.0-p648 OPENSSL_VERSION=1.0.1d
   - RUBY_PLATFORM=ruby RUBY_VERSION=2.3.0
 script:
-  - o=1.0.1d
+  - o=$(echo $OPENSSL_VERSION | tr . _)
   - p=${RUBY_PLATFORM}
   - v=${RUBY_VERSION}
   - r=${p}-${v}
-  - echo o=$o r=$r v=$v rv=$rv p=$p
-  - apt-get update
-  - apt-get install -y autoconf bison build-essential curl git sudo
-  - apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
+  - echo o=$o r=$r v=$v p=$p
+  - sudo apt-get update
+  - sudo apt-get install -y autoconf bison build-essential curl git sudo
+  - sudo apt-get install -y libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev
   - git clone https://github.com/openssl/openssl.git
   - (cd openssl && git checkout OpenSSL_$o)
   - (cd openssl && ./config -fPIC --prefix=/usr/local/ssl shared && make depend && make && sudo make install) >/dev/null
