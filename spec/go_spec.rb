@@ -3,6 +3,7 @@ require 'spec_helper'
 require "json"
 require "open-uri"
 require "openssl"
+require "yaml"
 
 describe "TLSv1.2 HIGH cipher support" do
 
@@ -12,11 +13,12 @@ describe "TLSv1.2 HIGH cipher support" do
       OpenSSL::SSL::SSLContext::DEFAULT_PARAMS[:ssl_version] = "TLSv1_2"
       @json = URI.parse("https://www.howsmyssl.com/a/check").read
     }.to_not raise_error
-    rating = JSON.parse(@json)["rating"]
-    expect(["Probably Okay", "Improvable"]).to include rating
+    report = JSON.parse(@json)
+    rating = report["rating"]
     if rating == "Improvable"
-      $stderr.puts "WARNING: SSL rating is: Improvable"
+      pending "could be improved:\n" + report.to_yaml.gsub(/^/, "\t")
     end
+    expect(rating).to eql "Probably Okay"
   end
 
 end
