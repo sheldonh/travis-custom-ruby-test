@@ -1,27 +1,20 @@
 ---
 langauge: c
 env:
-  - TRUBY=ruby-2.0.0-p648 OPENSSL=1.0.1d
-  - TRUBY=ruby-2.3.0 OPENSSL=1.0.2f
+  - TRUBY=ruby-2.0.0-p648 OPENSSL=openssl-1.0.1d
+  - TRUBY=ruby-2.3.0 OPENSSL=openssl-1.0.2f
   - TRUBY=jruby-9.0.0.0 OPENSSL=none
   - TRUBY=jruby-9.0.4.0 OPENSSL=none
 install:
-  - o=$(echo $OPENSSL | tr . _)
-  - p=${TRUBY%%-*}
-  - v=${TRUBY#*-}
-  - r=${TRUBY}
-  - rb=${TRUBY#ruby-}
-  - echo o=$o r=$r rb=$rb v=$v p=$p
+  - RUBY_URL=https://s3-eu-west-1.amazonaws.com/hetznerza/travis-ci/precise/no-rvm/${TRUBY}-${OPENSSL}.tar.gz
   - rvm implode --force
-  - test "$OPENSSL" = "none" || curl https://s3-eu-west-1.amazonaws.com/hetznerza/travis-ci/precise/no-rvm/openssl-${OPENSSL}.tar.gz | sudo tar -C /opt -xzf -
   - sudo mkdir -p /opt/rubies
-  - curl https://s3-eu-west-1.amazonaws.com/hetznerza/travis-ci/precise/no-rvm/${TRUBY}.tar.gz | sudo tar -C /opt/rubies -xzf -
+  - curl ${RUBY_URL} | sudo tar -C /opt/rubies -xzf -
   - git clone https://github.com/postmodern/chruby.git
   - (cd chruby && sudo ./scripts/setup.sh)
-  - chruby-exec $r -- ruby --version
-  - chruby-exec $r -- gem install --no-ri --no-rdoc bundler
+  - chruby-exec ${TRUBY} -- ruby --version
+  - chruby-exec ${TRUBY} -- gem install --no-ri --no-rdoc bundler
 script:
-  - chruby-exec $r -- ruby --version
-  - chruby-exec $r -- bundle
-  - curl https://www.howsmyssl.com/a/check
-  - chruby-exec $r -- bundle exec rake
+  - chruby-exec ${TRUBY} -- ruby --version
+  - chruby-exec ${TRUBY} -- bundle
+  - chruby-exec ${TRUBY} -- bundle exec rake
