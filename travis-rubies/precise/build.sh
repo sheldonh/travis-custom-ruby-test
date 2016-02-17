@@ -33,17 +33,5 @@ cd ruby-build
 ./install.sh
 RUBY_CONFIGURE_OPTS=--with-openssl-dir=${openssl_dir} ruby-build -v ${ruby_version} ${ruby_dir}
 
-# Now test the ruby we've built
 cd ${work_dir}
-git clone https://github.com/postmodern/chruby.git
-cd chruby
-./scripts/setup.sh
-
-cd ${work_dir}
-git clone https://github.com/sheldonh/travis-custom-ruby-test.git
-cd travis-custom-ruby-test
-SHELL=/bin/bash chruby-exec ${TRUBY} -- ruby --version
-SHELL=/bin/bash chruby-exec ${TRUBY} -- gem install --no-ri --no-rdoc bundler
-SHELL=/bin/bash chruby-exec ${TRUBY} -- ruby --version
-SHELL=/bin/bash chruby-exec ${TRUBY} -- bundle
-SHELL=/bin/bash chruby-exec ${TRUBY} -- bundle exec rake
+tar -C ${ruby_dir}/.. -czf ${TRUBY}.tar.gz ${TRUBY}

@@ -20,9 +20,8 @@ ARG TOPENSSL
 
 ADD build.sh /tmp
 RUN ./build.sh
-
-# Ship it
-RUN tar -C /opt/rubies -czf ${TRUBY}.tar.gz ${TRUBY}
+ADD test.sh /tmp
+RUN ./test.sh
 RUN aws s3 cp --acl=public-read ${TRUBY}.tar.gz ${UPLOAD}/${TRUBY}-${TOPENSSL}.tar.gz
 
 CMD /bin/bash
