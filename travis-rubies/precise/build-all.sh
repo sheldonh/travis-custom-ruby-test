@@ -2,6 +2,7 @@
 
 BUILDS=$(cat <<EOF
 	ruby-2.0.0-p648:openssl-1.0.1d
+	ruby-2.1.5:openssl-1.0.1k
 	ruby-2.3.0:openssl-1.0.2f
 	jruby-9.0.0.0:none
 	jruby-9.0.4.0:none
